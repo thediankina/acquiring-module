@@ -17,6 +17,17 @@ return [
         'user' => [
             'identityClass' => 'app\models\db\User',
         ],
+        'jwt' => [
+            'class' => 'sizeg\jwt\Jwt',
+            'signer' => \sizeg\jwt\JwtSigner::HS256,
+            'signerKey' => \sizeg\jwt\JwtKey::PLAIN_TEXT,
+            'signerKeyPassphrase' => $_ENV['JWT_SIGNER_KEY_PASSPHRASE'],
+            'signerKeyContents' => $_ENV['JWT_SIGNER_KEY_CONTENTS'],
+            'constraints' => [],
+        ],
+        'tokenizer' => [
+            'class' => 'app\src\components\tokenizer\Component',
+        ],
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],
