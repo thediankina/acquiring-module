@@ -3,7 +3,8 @@
     "php": "~8.1",
     "vlucas/phpdotenv": "~v5.6.0",
     "xutl/yii2-snowflake": "~1.0.0",
-    "yiisoft/yii2": "~2.0.0"
+    "yiisoft/yii2": "~2.0.0",
+    "sizeg/yii2-jwt": "v4.0-beta"
   },
   "repositories": [
     {
