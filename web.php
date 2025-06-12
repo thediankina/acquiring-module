@@ -1,5 +1,6 @@
 <?php
 
+$container = require __DIR__ . '/container.php';
 $db = require __DIR__ . '/database.php';
 
 return [
@@ -7,6 +8,7 @@ return [
     'basePath' => __DIR__,
     'bootstrap' => ['log'],
     'controllerNamespace' => 'app\controllers',
+    'container' => $container,
     'components' => [
         'db' => $db,
         'snowflake' => [

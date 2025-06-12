@@ -2,12 +2,16 @@
 
 namespace app\src\base\controllers;
 
+use app\src\base\exceptions\UserException;
+use app\src\base\helpers\LogHelper;
 use sizeg\jwt\JwtHttpBearerAuth;
+use Throwable;
 use Yii;
 use yii\db\ActiveRecord;
 use yii\filters\ContentNegotiator;
 use yii\filters\VerbFilter;
 use yii\rest\ActiveController;
+use yii\web\HttpException;
 use yii\web\Response;
 
 class WebController extends ActiveController
@@ -49,6 +53,42 @@ class WebController extends ActiveController
         ];
 
         return $behaviors;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function runAction($id, $params = [])
+    {
+        try {
+            return parent::runAction($id, $params);
+        } catch (UserException $e) {
+            Yii::$app->response->setStatusCode(422);
+
+            return [
+                'success' => false,
+                'errors' => $e->errors,
+            ];
+        } catch (HttpException $e) {
+            Yii::$app->response->setStatusCodeByException($e);
+
+            return [
+                'success' => false,
+                'errors' => [
+                    $e->getMessage(),
+                ],
+            ];
+        } catch (Throwable $e) {
+            Yii::$app->response->setStatusCode(500);
+            LogHelper::exception($e);
+
+            return [
+                'success' => false,
+                'errors' => [
+                    'Something went wrong.',
+                ]
+            ];
+        }
     }
 
     /**
